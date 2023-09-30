@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract Stablecoin is ERC20, Ownable {
     address public reserveToken; // The reserve token (e.g., Ether)
     uint256 public reserveRatio; // Reserve ratio as a fraction (e.g., 0.5 for 50% reserve)
-    event CheckBalance(string text, uint amount);
+    event CheckBalance(uint amount);
 
     constructor(
         string memory _name,
@@ -46,11 +46,10 @@ contract Stablecoin is ERC20, Ownable {
     }
     
     function getBalance(address user_account) external returns (uint){
-    
-       string memory data = "User Balance is : ";
-       uint user_bal = user_account.balance;
-       emit CheckBalance(data, user_bal );
-       return (user_bal);
+        require(user_account != address(0), "Addrress does not exist");
+        uint user_bal = user_account.balance;
+        emit CheckBalance(user_bal);
+        return (user_bal);
 
     }
 }
